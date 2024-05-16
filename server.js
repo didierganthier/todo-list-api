@@ -52,6 +52,20 @@ app.get('/protected', authenticate, (req, res) => {
   res.json({ message: `Welcome, ${req.user}!` });
 });
 
+app.get('/todos', (req, res) => {
+  res.json(todos);
+});
+
+app.post('/todos', (req, res) => {
+  const { text } = req.body;
+  if (!text) {
+    return res.status(400).json({ error: 'Text is required.' });
+  }
+  const newTodo = { id: Date.now(), text };
+  todos.push(newTodo);
+  res.status(201).json(newTodo);
+});
+
 // Other routes (e.g., CRUD operations for todos) go here
 
 // Start your server
